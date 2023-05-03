@@ -29,14 +29,12 @@ public class Main {
         return args -> {
 //            createRandomCustomer(customerRepository, passwordEncoder);
             s3Service.putObject(
-                "fs-matthemcodes-customer-test",
-                "foo/bar/jamilia",
+                "foo/bar/alex",
                 "Hello World".getBytes()
             );
 
             byte[] obj = s3Service.getObject(
-                "fs-matthemcodes-customer-test",
-                "foo/bar/jamilia"
+                "foo/bar/alex"
             );
 
             System.out.println("Hooray: " + new String(obj));
