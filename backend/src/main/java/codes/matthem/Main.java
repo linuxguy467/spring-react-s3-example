@@ -3,6 +3,7 @@ package codes.matthem;
 import codes.matthem.customer.Customer;
 import codes.matthem.customer.CustomerRepository;
 import codes.matthem.customer.Gender;
+import codes.matthem.s3.S3Service;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 import org.springframework.boot.CommandLineRunner;
@@ -22,26 +23,43 @@ public class Main {
 
     @Bean
     CommandLineRunner runner(
-            CustomerRepository customerRepository,
-            PasswordEncoder passwordEncoder) {
+        CustomerRepository customerRepository,
+        PasswordEncoder passwordEncoder,
+        S3Service s3Service) {
         return args -> {
-            var faker = new Faker();
-            Random random = new Random();
-            Name name = faker.name();
-            String firstName = name.firstName();
-            String lastName = name.lastName();
-            int age = random.nextInt(16, 99);
-            Gender gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
-            String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@matthem.codes";
-            Customer customer = new Customer(
-                    firstName +  " " + lastName,
-                    email,
-                    passwordEncoder.encode("password"),
-                    age,
-                    gender);
-            customerRepository.save(customer);
-            System.out.println(email);
+//            createRandomCustomer(customerRepository, passwordEncoder);
+            s3Service.putObject(
+                "fs-matthemcodes-customer-test",
+                "foo/bar/jamilia",
+                "Hello World".getBytes()
+            );
+
+            byte[] obj = s3Service.getObject(
+                "fs-matthemcodes-customer-test",
+                "foo/bar/jamilia"
+            );
+
+            System.out.println("Hooray: " + new String(obj));
         };
+    }
+
+    private static void createRandomCustomer(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
+        var faker = new Faker();
+        Random random = new Random();
+        Name name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        int age = random.nextInt(16, 99);
+        Gender gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
+        String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@matthem.codes";
+        Customer customer = new Customer(
+            firstName + " " + lastName,
+            email,
+            passwordEncoder.encode("password"),
+            age,
+            gender);
+        customerRepository.save(customer);
+        System.out.println(email);
     }
 
 }
