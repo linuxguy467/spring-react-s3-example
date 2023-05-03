@@ -6,6 +6,7 @@ import codes.matthem.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -101,10 +102,18 @@ public class CustomerService {
         }
 
         if (!changes) {
-           throw new RequestValidationException("no data changes found");
+            throw new RequestValidationException("no data changes found");
         }
 
         customerDao.updateCustomer(customer);
+    }
+
+    public void uploadCustomerProfileImage(Integer customerId, MultipartFile file) {
+
+    }
+
+    public byte[] getCustomerProfileImage(Integer customerId) {
+        return new byte[0];
     }
 }
 
