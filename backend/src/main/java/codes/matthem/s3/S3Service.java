@@ -1,6 +1,5 @@
 package codes.matthem.s3;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -20,14 +19,11 @@ import java.io.IOException;
 public class S3Service {
     private final S3Client s3Client;
 
-    @Value("${aws.s3.buckets.customer}")
-    private String bucketName;
-
     public S3Service(S3Client s3Client) {
         this.s3Client = s3Client;
     }
 
-    public void putObject(String key, byte[] file) {
+    public void putObject(String bucketName, String key, byte[] file) {
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
             .bucket(bucketName)
             .key(key)
@@ -35,7 +31,7 @@ public class S3Service {
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file));
     }
 
-    public byte[] getObject(String key) {
+    public byte[] getObject(String bucketName, String key) {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
             .bucket(bucketName)
             .key(key)

@@ -3,6 +3,7 @@ package codes.matthem;
 import codes.matthem.customer.Customer;
 import codes.matthem.customer.CustomerRepository;
 import codes.matthem.customer.Gender;
+import codes.matthem.s3.S3Buckets;
 import codes.matthem.s3.S3Service;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
@@ -25,15 +26,18 @@ public class Main {
     CommandLineRunner runner(
         CustomerRepository customerRepository,
         PasswordEncoder passwordEncoder,
-        S3Service s3Service) {
+        S3Service s3Service,
+        S3Buckets s3Buckets) {
         return args -> {
 //            createRandomCustomer(customerRepository, passwordEncoder);
             s3Service.putObject(
+                s3Buckets.getCustomer(),
                 "foo/bar/alex",
                 "Hello World".getBytes()
             );
 
             byte[] obj = s3Service.getObject(
+                s3Buckets.getCustomer(),
                 "foo/bar/alex"
             );
 
