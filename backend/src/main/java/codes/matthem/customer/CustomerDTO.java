@@ -3,13 +3,14 @@ package codes.matthem.customer;
 import java.util.List;
 
 public record CustomerDTO (
-        Integer id,
-        String name,
-        String email,
-        Gender gender,
-        Integer age,
-        List<String> roles,
-        String username
+    Integer id,
+    String name,
+    String email,
+    Gender gender,
+    Integer age,
+    List<String> roles,
+    String username,
+    String profileImageId
 ){
 
 }

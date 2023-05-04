@@ -4,7 +4,6 @@ import codes.matthem.customer.CustomerDTO;
 import codes.matthem.customer.CustomerRegistrationRequest;
 import codes.matthem.customer.CustomerUpdateRequest;
 import codes.matthem.customer.Gender;
-import codes.matthem.customer.*;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 import org.junit.jupiter.api.Test;
@@ -82,13 +81,13 @@ public class CustomerIT {
 
         // make sure that customer is present
         CustomerDTO expectedCustomer = new CustomerDTO(
-                id,
-                name,
-                email,
-                gender,
-                age,
-                List.of("ROLE_USER"),
-                email
+            id,
+            name,
+            email,
+            gender,
+            age,
+            List.of("ROLE_USER"),
+            email,
         );
 
         assertThat(allCustomers).contains(expectedCustomer);
@@ -270,7 +269,7 @@ public class CustomerIT {
                 .getResponseBody();
 
         CustomerDTO expected = new CustomerDTO(
-                id, newName, email, gender, age, List.of("ROLE_USER"), email
+            id, newName, email, gender, age, List.of("ROLE_USER"), email,
         );
 
         assertThat(updatedCustomer).isEqualTo(expected);
